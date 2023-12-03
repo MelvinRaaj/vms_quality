@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5', 
     'phonenumber_field',
-    'dal',
-    'dal_select2',
     
     #B2B_One
     'tenant',
