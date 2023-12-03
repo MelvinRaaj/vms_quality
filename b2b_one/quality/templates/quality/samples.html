@@ -1,0 +1,472 @@
+{% extends 'base2.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- Add these lines to your <head> section -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <style>
+    /* Add this to your existing CSS file or create a new one */
+    .table-container {
+      overflow-x: auto;
+    }
+  
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    /* Add this to your existing CSS or create a new one */
+    .required-field {
+      background-color: #ffcccc; /* Light red color for highlighting */
+    }
+
+  </style>
+</head>
+
+<div class="container-fluid">
+  <div class="bg-white rounded box-shadow">
+    <div class="main-body">
+      <main class="">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2 class="text-4xl text-gray-800">Sample Testing Status</h2>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button> -->
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Quality</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Sample</li>
+        </ol>
+      </nav>
+
+        <!-- First Accordion: Product Collection Information -->
+          <!-- Second Accordion: Product Information -->
+          <div class="accordion" id="accordion2">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Quality Schedule Information
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordion2">
+                <div class="accordion-body">
+                  <legend>Sample Testing Information</legend>
+                  <form method="post" id="tblform" action="{% url 'department:department_update_all' %}">
+                    {% csrf_token %}
+                    <div class="table-container">
+                      <table id="tblItems" class="table w3-table-all w3-hoverable">
+                        <thead>
+                            <tr>
+                                <th>Sample ID</th>
+                                <th>Purpose</th>
+                                <th>Document No.</th>
+                                <th>ETA</th>
+                                <th>Received Date</th>
+                                <th>Total Tests</th>
+                                <th>Total Completed</th>
+                                <th>% Completed</th>
+                                <th>Result</th>
+                                <th>Comments </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules1' %}"> 10001</a></th>
+                                <td>NPI</td>
+                                <td>SL-0001</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>10</td>
+                                <td>10</td>
+                                <td> 1.00 </td>
+                                <td>PASS</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"> 10002</a></th>
+                                <td>NPI</td>
+                                <td>SL-0002</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>7</td>
+                                <td>1</td>
+                                <td> 0.14 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"> 10003</a></th>
+                                <td>NPI</td>
+                                <td>SL-0003</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td> 0.75 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"> 10004</a></th>
+                                <td>NPI</td>
+                                <td>SL-0004</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>8</td>
+                                <td>3</td>
+                                <td> 0.38 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"> 10005</a></th>
+                                <td>NPI</td>
+                                <td>SL-0005</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>8</td>
+                                <td>1</td>
+                                <td> 0.13 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10006</th>
+                                <td>NPI</td>
+                                <td>SL-0006</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td> 1.00 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10007</th>
+                                <td>NPI</td>
+                                <td>SL-0007</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>10</td>
+                                <td>2</td>
+                                <td> 0.20 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10008</th>
+                                <td>NPI</td>
+                                <td>SL-0008</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>2</td>
+                                <td>1</td>
+                                <td> 0.50 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10009</th>
+                                <td>NPI</td>
+                                <td>SL-0009</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>6</td>
+                                <td>1</td>
+                                <td> 0.17 </td>
+                                <td>REDO</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10010</th>
+                                <td>NPI</td>
+                                <td>SL-0010</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>5</td>
+                                <td>3</td>
+                                <td> 0.60 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10011</th>
+                                <td>NPI</td>
+                                <td>SL-0011</td>
+                                <td>21/11/2023</td>
+                                <td>21/11/2023</td>
+                                <td>8</td>
+                                <td>2</td>
+                                <td> 0.25 </td>
+                                <td>null</td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                              <th> <a href="{% url 'quality:QualitySchedules' %}"></a> 10012</th>
+                              <td>NPI</td>
+                              <td>SL-0011</td>
+                              <td>21/11/2023</td>
+                              <td>21/11/2023</td>
+                              <td>8</td>
+                              <td>8</td>
+                              <td>1.00 </td>
+                              <td>FAIL</td>
+                              <td> </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    </div>
+
+
+                    <input type="hidden" name="total_rows" id="total_rows" value="0">
+                    
+                    <br>
+                    <div class="w3-col w3-half">
+                      <!-- <input id="fileupload" type=file name="files[]"> -->
+                      <!--add button to add new row-->
+                      <!-- <button id="addRowButton" class="btn btn-sm btn-outline-info" >Add Row</button> -->
+                      <!--add button to remove all duplicate lines-->
+                      <!-- <button id="removeDuplicateButton" class="btn btn-sm btn-outline-info">Remove Duplicate</button> -->
+                    </div>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div> <!--End Accordion-->
+
+                    <!-- <div class="w3-col w3-half">
+                      <div class="form-group">
+                        <button type="submit" id="saveChangesButton" class="btn btn-sm btn-outline-success">Save Changes</button>
+                        <button type="submit" name="action" value="delete_selected" class="btn btn-sm btn-outline-danger">Delete Selected</button>
+                      </div>
+                    </div> -->
+                    <br>         
+                  
+                  <br>
+                  <br>
+          <!-- <div class="form-group">
+            <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+            <a href="{% url 'quality:qualitytemplatelist' %}" class="btn btn-sm btn-secondary">Cancel</a>
+        </div> -->
+      </form>
+        <br>
+
+
+  
+    <br>
+    <br>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var firstAccordion = document.getElementById('collapseOne');
+    var secondAccordion = document.getElementById('collapseTwo');
+
+    // Open the first accordion by default
+    firstAccordion.classList.add('show');
+
+    // Collapse the second accordion
+    secondAccordion.classList.remove('show');
+  });
+
+  $(document).ready(function () {
+
+    // Initialize DataTable
+    var dataTable = $('#tblItems').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        columns: [
+        ],
+        columnDefs: [
+        ],
+    });
+
+    // Initialize datepicker for elements with the 'datepicker' class
+    $('.datepicker').datepicker();
+  });
+
+  $(document).ready(function () {
+    // Attach a submit event handler to the form
+    $('form').submit(function (event) {
+      // Iterate over the required fields
+      $('form .required-field').removeClass('required-field'); // Remove previous highlights
+
+      // Check if the required fields are empty
+      $('form [data-required="true"]').each(function () {
+        if ($(this).val() === '') {
+          // Add the class to highlight the empty required field
+          $(this).closest('td').addClass('required-field');
+        }
+      });
+
+      // Prevent form submission if there are empty required fields
+      // if ($('form .required-field').length > 0) {
+      //   event.preventDefault();
+      //   alert('Please fill in all required fields.');
+      // }
+    });
+
+    // Attach a click event handler to the 'Add Row' button
+    
+  });
+  
+      // Attach a click event handler to the 'Add Row' button
+    // Function to add a row
+    function addRow() {
+      //calculate i as the total rows in column
+      var i = $('#tblItems tr').length - 1;
+      // Add new row at the bottom of the table
+      $('#tblItems tr:last').after(`
+        <tr>
+          <td><input type="checkbox" name="selected_rows[]" value=""></td>
+          <td><input type="text" name="Test_Property${i}" value=""></td>
+          <td><input type="text" name="Test_Standard${i}" value=""></td>
+          <td><input type="text" name="Standard_Quality_Information_${i}" value=""></td>
+          <td><input type="text" name="Test_Requirement_${i}" value=""></td>
+          <td><input type="text" name="Requirement_Lower_Range_${i}" value=""></td>
+          <td><input type="text" name="Requirement_Upper_Range_${i}" value=""></td>
+          <td><input type="text" name="Testing_Line_${i}" value=""></td>
+          <td><input type="text" name="Initial_Values_${i}" value=""></td>
+          <td><input type="text" name="Line_Result_Value_${i}" value=""></td>
+          <td><input type="text" name="Result_${i}" value=""></td>
+          <td><input type="text" name="Comments_${i}" value=""></td>
+          <td><input type="text" name="Test_By_${i}" value=""></td>
+          <td><input type="text" name="Date_Of_Test_${i}" value=""></td>
+          <td><input type="file" name="Attachments_${i}" value=""></td>
+          <td><a href="">Delete</a></td>
+        </tr>
+      `);
+      // Update the total number of imported rows
+      $('#total_rows').val(i + 1);
+      // Scroll to the bottom of the table
+      $('html, body').animate({
+        scrollTop: $("#tblItems").offset().top
+      }, 1000);
+      //add class to latest row as added class
+      $('#tblItems tr:last').addClass('added');
+
+    }
+
+      // Event listener for the "Add Row" button
+      $('#addRowButton').on('click', function () {
+      // prevent the form from submitting
+      event.preventDefault();
+      addRow();
+    });
+
+
+    // Function to parse Excel file
+    function parseExcel(file) {
+      return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          var data = e.target.result;
+          var workbook = XLSX.read(data, { type: 'binary' });
+
+          workbook.SheetNames.forEach(function (sheetName) {
+            var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+            var productList = JSON.parse(JSON.stringify(XL_row_object));
+
+            // Add new rows
+            var newRowsData = [];
+            for (var i = 0; i < productList.length; i++) {
+              var columns = Object.values(productList[i]);
+              var newRow = [
+                '<td><input type="checkbox" name="selected_rows[]" value=""></td>',
+                '<td><input type="text" name="Test_Property_' + i + '" value="' + columns[0] + '"></td>',
+                '<td><input type="text" name="Test_Standard_' + i + '" value="' + columns[1] + '"></td>',
+                '<td><input type="text" name="Standard_Quality_Information_' + i + '" value="' + columns[2] + '"></td>',
+                '<td><input type="text" name="test_requirement_' + i + '" value="' + columns[3] + '"></td>',
+                '<td><input type="text" name="Requirement_Lower_Range_' + i + '" value="' + columns[4] + '"></td>',
+                '<td><input type="text" name="Requirement_Upper_Range_' + i + '" value="' + columns[5] + '"></td>',
+                '<td><input type="text" name="Testing_Line_' + i + '" value="' + columns[6] + '"></td>',
+                '<td><input type="text" name="Initial_Values_' + i + '" value="' + columns[7] + '"></td>',
+                '<td><input type="text" name="Line_Result_Value_' + i + '" value="' + columns[8] + '"></td>',
+                '<td><input type="text" name="Result_' + i + '" value="' + columns[9] + '"></td>',
+                '<td><input type="text" name="Comments_' + i + '" value="' + columns[10] + '"></td>',
+                '<td><input type="text" name="Test_By_' + i + '" value="' + columns[11] + '"></td>',
+                '<td><input type="text" name="Date_Of_Test_' + i + '" value="' + columns[12] + '"></td>',
+                '<td><input type="file" name="Attachments_' + i + '" value="' + columns[13] + '"></td>',
+                '<td><a href="" class="btn btn-sm btn-outline-danger">Delete</a></td>'
+              ];
+              newRowsData.push(newRow);
+            }
+
+            // Append all new rows to the table and draw once
+            dataTable.rows.add(newRowsData).draw();
+
+            // Set the total number of imported rows
+            $('#total_rows').val(productList.length);
+
+            // Resolve the promise
+            resolve();
+          });
+        };
+
+        reader.onerror = function (ex) {
+          console.log(ex);
+          reject(ex);
+        };
+
+        reader.readAsBinaryString(file);
+      });
+    }
+
+    // Handle file selection
+    async function handleFileSelect(evt) {
+          var files = evt.target.files;
+          try {
+              await parseExcel(files[0]);
+              highlightDuplicateRows(); // Call the function after Excel file is loaded
+          } catch (error) {
+              console.error('Error parsing Excel file:', error);
+          }
+      }
+
+    // if TD value = FAIL then highlight the row red
+    // only check value
+    function highlightDuplicateRows() {
+      var table = document.getElementById('tblItems');
+      var rows = table.rows;
+      for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cells = row.cells;
+        var fail = cells[9].innerHTML;
+        if (fail == 'FAIL') {
+          row.classList.add('required-field');
+        }
+      }
+    }
+    
+
+</script>
+
+{% endblock content %}

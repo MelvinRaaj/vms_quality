@@ -1,0 +1,30 @@
+<!-- NOT USED FOR SIGUP -->
+{% extends "base.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+
+<div class="d-flex justify-content-center">
+  <div class= "w-50 m-5 p-2 bg-white rounded box-shadow justify-content-center"  id='centerform'>
+      <div class="p-2 border-t border-gray-200">
+        <a class="m-3 d-flex justify-content-center" href="{% url 'landing:landing_page' %}">
+          <img src="{% static 'images/logo_small.png' %}" alt="SalesMinded Logo" alt="" width="50" height="34" width='10%'>
+        </a>
+        <h2 class="text-4xl text-gray-800">Sign Up Today</h2>
+        
+        <form class="signup" id="signup_form" method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          {% crispy form %}
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

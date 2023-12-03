@@ -1,0 +1,30 @@
+<!-- MAIN TEMPLATE BEING USED FOR SIGUP -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-center">
+    <div class= "w-50 m-5 p-2 bg-white rounded box-shadow justify-content-center"  id='centerform'>
+        <div class="p-2 border-t border-gray-200">
+          <a class="m-3 d-flex justify-content-center" href="{% url 'landing:landing_page' %}">
+            <img src="{% static 'images/logo_small.png' %}" alt="SalesMinded Logo" alt="" width="50" height="34" width='10%'>
+          </a>
+            <h2 class="text-4xl text-gray-800">Add a password to complete your registration</h2>
+            <br>
+            <form  method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <br>
+                <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit-id-submit">
+            </form>
+                <br>
+            <p><img src="{% static 'images/wa1.png' %}" class="img-fluid float-left" alt="Bootstrap Themes" width="50vh" loading="lazy"> <a href="{% url 'signup_phone' %}"> Sign Up with WhatsApp instead </a></p>
+    </div>
+</div>
+
+{% endblock content %}

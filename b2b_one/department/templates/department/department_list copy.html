@@ -1,0 +1,204 @@
+{% extends 'base1.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+<head>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.0/dist/xlsx.full.min.js"></script>
+  
+</head>
+
+
+<div class="container-fluid">
+  <div class="bg-white rounded box-shadow">
+    <div class="main-body">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2 class="text-4xl text-gray-800">Department List</h2>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Departments</a></li>
+            <!-- <li class="breadcrumb-item active" aria-current="page">{{users.company}}</li> -->
+            <li class="breadcrumb-item active" aria-current="page">Department List</li>
+          </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+      <div class="w3-responsive">
+        <table id="tblItems" class="table w3-table-all w3-hoverable">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Company</th>
+              <th>Department Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <!--tbody 1 display data body-->
+          <tbody>
+            {% for department in departments %}
+              <tr>
+                  <td></td>  
+                  <td>{{ department.company }}</td>
+                  <td>{{ department.department_name }}</td>  
+                  <td></td>  
+              </tr>
+            {% endfor %}
+          </tbody>
+        
+        
+          <form id="invite-form" method="POST" action="{% url 'department:department_list' %}">
+            <!--tbody 1 form body-->
+          <tbody>
+            {% csrf_token %}
+            {{ form.management_form }}
+            {% for form in formset %}
+            
+            <tr>
+                <td></td>
+                <td>{{ form.company }}</td>
+                <td>{{ form.department_name }}</td>
+                <td></td>
+            </tr>
+          {% endfor %}
+                {% if form.errors %}
+        <tr>
+          <td colspan="4">
+            {{ form.errors }}
+          </td>
+        </tr>
+      {% endif %}
+          </tbody>
+        
+        </table>
+      </div>
+      <br>
+      <br>
+      <div class="w3-col w3-half">
+        <div class="form-group">
+          <input id="fileupload" type=file name="files[]">
+          <button id="addRow">Add Row</button>
+        </div>
+        
+      </div>
+      <br>
+      <input type="submit" value="Submit" class="btn btn-primary btn-block">
+      <div id="empty-form" style="display: none;">
+        {{ form.empty_form|crispy }}
+      </div>
+      
+
+    </form>
+
+      
+
+      </div>
+  </div>
+</div>
+
+
+
+<script>
+
+// Read insert Excel to HTML:
+var ExcelToJSON = function() {
+  this.parseExcel = function(file) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      var data = e.target.result;
+      var workbook = XLSX.read(data, {
+        type: 'binary'
+      });
+      workbook.SheetNames.forEach(function(sheetName) {
+        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+        var productList = JSON.parse(JSON.stringify(XL_row_object));
+
+        var rows = $('#tblItems tbody:eq(1)');
+        // console.log(productList)
+        for (i = 0; i < productList.length; i++) {
+          var columns = Object.values(productList[i])
+          rows.append(`
+                        <tr>
+                            <td>${columns[0]}</td>
+                            <td><input type="text" name="company" required id="id_company" value="${columns[1]}"></td>');
+                            <td><input type="text" name="department_name" required id="id_department_name" value="${columns[2]}"></td>');
+                            <td><button class="deleteButton">Delete</button></td>
+                        </tr>
+                    `);
+        }
+
+      })
+    };
+    reader.onerror = function(ex) {
+      console.log(ex);
+    };
+
+    reader.readAsBinaryString(file);
+  };
+};
+
+function handleFileSelect(evt) {
+  var files = evt.target.files; // FileList object
+  var xl2json = new ExcelToJSON();
+  xl2json.parseExcel(files[0]);
+
+}
+
+document.getElementById('fileupload').addEventListener('change', handleFileSelect, false);
+
+// Attach click event handler to delete buttons
+$('#tblItems').on('click', '.deleteButton', function() {
+  $(this).closest('tr').remove(); // or $(this).parents('tr').first().remove();
+});
+
+// Add row section:
+document.getElementById("addRow").addEventListener("click", function () {
+    e.preventDefault(); // Prevent the default form submission
+    var table = document.getElementById("tblItems");
+    var tbody = table.getElementsByTagName("tbody")[1]; // Assuming there is only one tbody, adjust if needed
+    var row = tbody.insertRow();
+    
+    // i need a better way to do this (sunk point 1)
+    var cell0 = row.insertCell(0);
+    cell0.contentEditable = false;
+    // cell0.textContent = '';
+    var cell1 = row.insertCell(1);
+    cell1.contentEditable = true;
+    // cell1.textContent = '';
+    var cell2 = row.insertCell(2);
+    cell2.contentEditable = true;
+    // cell1.textContent = '';
+
+    // Create delete button in the last column for uploaded Excel
+    var deleteCell = row.insertCell();
+    var deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", function() {
+        // Handle delete button click
+        row.remove();  // Remove the entire row when the delete button is clicked
+    });
+    deleteCell.appendChild(deleteButton);
+
+
+  });
+
+  
+
+
+</script>
+
+{% endblock content %}

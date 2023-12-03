@@ -1,0 +1,136 @@
+{% load static %}
+
+<header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow" style="background-color: #3271f2;">
+    
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" style="background-color: #3271f2;" href="{% url 'home:home_page' %}">VMS</a>
+
+      <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar1" aria-controls="sidebar1" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+          <input class="form-control w-60 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
+
+
+        <div class="dropstart d-none d-sm-block">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #3271f2;">
+            <a>
+              <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+            </a>
+          </button>
+          <ul class="dropdown-menu">
+            <li><h6 class="dropdown-header">Welcome {{ request.user.email }}</h6></li>
+            <li><a class="dropdown-item" href="{% url 'users:userprofile' user.pk %}" >My Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'tenant:tenantview' user.company %}" >My Tenant</a></li>
+            <li><a class="dropdown-item" href="{% url 'invitation:user-invite' %}" >Invite Users</a></li>
+            <li><a class="dropdown-item" href="{% url 'users:user_lists_table' %}" >My Users</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a></li>
+          </ul>
+        </div>
+</header>
+
+<!-- if you adjust here you have to adjust sidemenu also -->
+
+<nav id="sidebar1" class="bg-light collapse">
+
+  <div class="dropdown">
+    <button class="btn dropdown-toggle btn-block" style="width: 100%;background-color: white;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <a> Welcome {{ request.user.email }}
+        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+      </a>
+    </button>
+    <ul class="dropdown-menu" style="width: 100%;">
+      <li><h6 class="dropdown-header"></h6></li>
+      <li><a class="dropdown-item" href="{% url 'users:userprofile' user.pk %}" >My Profile</a></li>
+      <li><a class="dropdown-item" href="{% url 'tenant:tenantview' user.company %}" >My Tenant</a></li>
+      <li><a class="dropdown-item" href="{% url 'invitation:user-invite' %}" >Invite Users</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="{% url 'account_logout' %}">Log Out</a></li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- This has to be adjusted if you have changes in the sidemenu -->
+  <div class="position-sticky pt-3 sidebar-sticky">
+    <ul class="nav flex-column">
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+        <span>Menu</span>
+        <a class="link-secondary" href="#" aria-label="Add a new report">
+          <span class="align-text-bottom"></span>
+        </a>
+      </h6>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">
+          <span class="align-text-bottom"></span>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Orders
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Products
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Customers
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Reports
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Integrations
+        </a>
+      </li>
+    </ul>
+
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+      <span>Saved reports</span>
+      <a class="link-secondary" href="#" aria-label="Add a new report">
+        <span class="align-text-bottom"></span>
+      </a>
+    </h6>
+    <ul class="nav flex-column mb-2">
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Current month
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Last quarter
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Social engagement
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span class="align-text-bottom"></span>
+          Year-end sale
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+

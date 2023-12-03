@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% if user_display user.sign_up == 'Email' %}
+
+{% blocktrans %}Confirmation e-mail sent to {{email}}.{% endblocktrans %}
+
+{% endif %}

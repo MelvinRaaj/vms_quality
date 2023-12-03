@@ -1,0 +1,118 @@
+<!-- product_create_or_update.html latest working version --> 
+
+{% extends "base1.html" %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="bg-white rounded box-shadow">
+      <div class="main-body">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2 class="text-4xl text-gray-800">{{ app_name }} Information</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Breadcrumb -->
+          <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item "><a href="javascript:void(0)">{{ app_name }}</a></li>
+              <!-- <li class="breadcrumb-item active" aria-current="page">{{users.company}}</li> -->
+              <li class="breadcrumb-item active" aria-current="page">{{products}}</li>
+            </ol>
+          </nav>
+          <!-- /Breadcrumb -->
+          <!--add a div just above the table with bottom border-->
+  
+        <!-- First Accordion: Product Collection Information -->
+        <form enctype="multipart/form-data" method="post" id="product_form">
+
+        <div class="accordion" id="accordion1">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{ app_name }} Information
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion1">
+              <div class="accordion-body">
+                <legend>Collection Info</legend>
+                    {% csrf_token %}
+                    <!-- main form start --- in our case product form -->
+                        {{form|crispy}}    
+                    <!-- main form end --- in our case product form -->
+                    </div>
+            </div>
+          </div>
+          </div>
+          <br>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+        </div>
+
+        </form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script>
+
+    // add date fields
+    $(document).ready(function () {
+        $('.dateinput').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var firstAccordion = document.getElementById('collapseOne');
+        var secondAccordion = document.getElementById('collapseTwo');
+        var thirdAccordion = document.getElementById('collapseThree');
+
+        // Open the first accordion by default
+        firstAccordion.classList.add('show');
+
+        // Collapse the second accordion
+        secondAccordion.classList.remove('show');
+        thirdAccordion.classList.remove('show');
+    });
+
+
+  $(document).ready(function() {
+    // when user clicks add more btn of variants
+      $('.add-variants').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-variants').children().length;
+          var tmplMarkup = $('#variants-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-variants').append(compiledTmpl);
+  
+          // update form count
+          $('#id_variants-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-samples').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-samples').children().length;
+          var tmplMarkup = $('#samples-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-samples').append(compiledTmpl);
+  
+          // update form count
+          $('#id_samples-TOTAL_FORMS').attr('value', count+1);
+      });
+  });
+</script>
+        
+{% endblock content %}

@@ -1,0 +1,7 @@
+<!-- _product_sku_list.html -->
+{% for product_sku in product_skus %}
+  <div class="checkbox">
+    <input type="checkbox" name="product_skus" value="{{ product_sku.id }}" id="id_product_sku_{{ product_sku.id }}">
+    <label for="id_product_sku_{{ product_sku.id }}">{{ product_sku }}</label>
+  </div>
+{% endfor %}

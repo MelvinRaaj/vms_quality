@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+
+
+<div class="d-flex justify-content-center">
+  <div class= "w-50 m-5 p-2 bg-white rounded box-shadow justify-content-center"  id='centerform'>
+      <div class="p-2 border-t border-gray-200">
+        <a class="m-3 d-flex justify-content-center" href="{% url 'landing:landing_page' %}">
+          <img src="{% static 'images/logo_small.png' %}" alt="SalesMinded Logo" alt="" width="50" height="34" width='10%'>
+        </a>
+        <form  method="post">
+                   <h2> Log in to B2B_ONE Solution </h2>
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  <button class="btn btn-primary" type="submit">Login</button>
+                  <hr>
+                  {% if redirect_field_value %}
+                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                  {% endif %}
+                  
+                <p>If you have not created an account yet, then please
+                  <a href="{% url 'signup' %}"><span style="color:blue;">sign up</span> </a> first.</p>
+                  {% endif %}
+  
+                  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          </form>
+      </div>
+
+  </div>
+</div>
+
+{% endblock %}

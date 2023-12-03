@@ -1,0 +1,249 @@
+{% extends 'base2.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <!-- Add these lines to your <head> section -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+  <!-- jQuery UI -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <style>
+    /* Add this to your existing CSS file or create a new one */
+    .table-container {
+      overflow-x: auto;
+    }
+  
+    .dataTables_scrollHeadInner,
+    .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    /* Add this to your existing CSS or create a new one */
+    .required-field {
+      background-color: #ffcccc; /* Light red color for highlighting */
+    }
+
+  </style>
+</head>
+
+<div class="container-fluid">
+  <div class="bg-white rounded box-shadow">
+    <div class="main-body">
+      <main class="">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2 class="text-4xl text-gray-800">Quality Home</h2>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <!-- <div class="btn-group me-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            </div> -->
+          </div>
+        </div>
+      </main>
+
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="main-breadcrumb">
+        <ol class="breadcrumb">
+          <!-- <li class="breadcrumb-item"><a href="index.html">Quality Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Product Collections</a></li> -->
+          <li class="breadcrumb-item active" aria-current="page">Quality Home</li>
+        </ol>
+      </nav>
+
+      <table id="tblItems" class="table w3-table-all w3-hoverable">
+        <thead>
+          <th></th>
+          <th>NPI</th>
+          <th>PP</th>
+          <th>SS</th>
+          <th>Mass arrival (Fabric) </th>
+          <th>On-site </th>
+          <th>(FG)	Inc.</th>
+          <th>(Fabric)	Inc.</th>
+          <th>(Accs_Fiber)	Inc.</th>
+          <th>Prod. (WIP)</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Yet to receive / plan</td>
+            <td>20</td>
+            <td>5</td>
+            <td>35</td>
+            <td>30</td>
+            <td>68</td>
+            <td>85</td>
+            <td>16</td>
+            <td>2</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>Received / Planned</td>
+            <td>10</td>
+            <td>6</td>
+            <td>12</td>
+            <td>12</td>
+            <td>12</td>
+            <td>16</td>
+            <td>24</td>
+            <td>3</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>Under testing / Inspection</td>
+            <td>8</td>
+            <td>6</td>
+            <td>3</td>
+            <td>10</td>
+            <td>4</td>
+            <td>12</td>
+            <td>8</td>
+            <td>3</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Pending testing / Inspection</td>
+            <td>2</td>
+            <td>0</td>
+            <td>9</td>
+            <td>2</td>
+            <td>8</td>
+            <td>4</td>
+            <td>16</td>
+            <td>0</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>Completed (Accumulative)</td>
+            <td>33</td>
+            <td>18</td>
+            <td>180</td>
+            <td>43</td>
+            <td>157</td>
+            <td>110</td>
+            <td>35</td>
+            <td>23</td>
+            <td>49</td>
+          </tr>
+          <tr>
+            <td>Completion %</td>
+            <td>77%</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td>MRB</td>
+            <td>-</td>
+            <td>-</td>
+            <td>3</td>
+            <td></td>
+            <td>7</td>
+            <td>5</td>
+            <td>2</td>
+            <td>0</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>NCR</td>
+            <td>-</td>
+            <td>-</td>
+            <td>2</td>
+            <td></td>
+            <td>4</td>
+            <td>3</td>
+            <td>1</td>
+            <td>0</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Claim Form</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td></td>
+            <td>2</td>
+            <td>3</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+  
+    <br>
+    <br>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+    var firstAccordion = document.getElementById('collapseOne');
+    var secondAccordion = document.getElementById('collapseTwo');
+
+    // Open the first accordion by default
+    firstAccordion.classList.add('show');
+
+    // Collapse the second accordion
+    secondAccordion.classList.remove('show');
+  });
+
+  $(document).ready(function () {
+
+    // Initialize DataTable
+    var dataTable = $('#tblItems').DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        columns: [
+            { orderable: false }, // checkbox column
+            { type: 'text', className: 'no-edit' }, // company column (non-editable)
+            { type: 'text' }, // department_name column
+            { orderable: false } // delete column
+        ],
+        columnDefs: [
+            { targets: 1, orderable: false, className: 'no-edit' } // make the 2 column non-editable
+        ],
+    });
+    // Initialize datepicker for elements with the 'datepicker' class
+    $('.datepicker').datepicker();
+  });
+
+  $(document).ready(function () {
+    // Attach a submit event handler to the form
+    $('form').submit(function (event) {
+      // Iterate over the required fields
+      $('form .required-field').removeClass('required-field'); // Remove previous highlights
+
+      // Check if the required fields are empty
+      $('form [data-required="true"]').each(function () {
+        if ($(this).val() === '') {
+          // Add the class to highlight the empty required field
+          $(this).closest('td').addClass('required-field');
+        }
+      });
+
+      // Prevent form submission if there are empty required fields
+      // if ($('form .required-field').length > 0) {
+      //   event.preventDefault();
+      //   alert('Please fill in all required fields.');
+      // }
+    });
+  });
+  
+</script>
+
+{% endblock content %}

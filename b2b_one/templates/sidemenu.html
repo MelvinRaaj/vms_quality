@@ -1,0 +1,192 @@
+<!-- if you adjust here you have to adjust sidenavbar also -->
+
+<head>
+
+  <style>
+
+    /* all nav link to be font color white */
+    .nav-link{
+      color: white;
+    }
+
+    .a {
+      color: white;
+    }
+
+  </style>
+
+</head>
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" >
+  <div class="position-sticky pt-3 sidebar-sticky" style="background-color: #243E62;">
+    <ul class="nav flex-column">
+      <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase">
+        <span style="color:white; font-weight: bold;">Menu</span>
+        <a style="color:white;" class="link-secondary" href="#" aria-label="Add a new report">
+          <span data-feather="plus-circle" class="align-text-bottom"></span>
+        </a>
+      </h5>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link active" aria-current="page" href="#">
+          <span data-feather="home" class="align-text-bottom"></span>
+          Dashboard
+        </a>
+      </li>
+      {% if request.user.user_role == 'Management' %}
+      <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'shopping_list:list_products' %}">
+            <span data-feather="home" class="align-text-bottom"></span>
+             Shopping List
+        </a>
+      </li>
+      <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'rfi:list_products' %}">
+            <span data-feather="home" class="align-text-bottom"></span>
+          RFI
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="users" class="align-text-bottom"></span>
+          Forecast Quantity Request
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+          RFQ
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          MOS
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          PO
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          PO Tracking
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          E-Invoicing and PSF
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Shipping 
+        </a>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <a style="color:white;" class="nav-link" href="{% url 'samples:list_products' %}">
+          Samples 
+        </a>
+      </li>
+      <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'quality2:update_rfi_schedule' %}">
+          Samples Schedule and Reporting 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Quality Inspections 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Receiving 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Claims 
+        </a>
+      </li>
+    </ul>
+    {% if request.user.user_role != 'Quality User' %}
+    <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1  text-uppercase">
+      <span style="color:white; font-weight: bold;">Settings</span>
+      <a style="color:white;" class="link-secondary" href="#" aria-label="Add a new report">
+        <span data-feather="plus-circle" class="align-text-bottom"></span>
+      </a>
+    </h5>
+    <ul class="nav flex-column mb-2">
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <a style="color:white;" class="nav-link" href="{% url 'quality2:list_products' %}">
+          Quality Templates 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Groups
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Company
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="{% url 'department:department_list' %}">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Department
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="file-text" class="align-text-bottom"></span>
+          Country
+        </a>
+      </li>
+      <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'products:list_products' %}">
+          Collections 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Products 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Sub-Products 
+        </a>
+      </li>
+      <li class="nav-item">
+        <a style="color:white;" class="nav-link" href="#">
+          <span data-feather="layers" class="align-text-bottom"></span>
+          Budgets
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  </nav>
+

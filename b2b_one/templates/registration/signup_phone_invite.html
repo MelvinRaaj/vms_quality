@@ -1,0 +1,82 @@
+<!-- MAIN TEMPLATE BEING USED FOR SIGUP -->
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+</head>
+
+
+<div class="d-flex justify-content-center">
+    <div class= "w-50 m-5 p-2 bg-white rounded box-shadow justify-content-center"  id='centerform'>
+        <div class="p-2 border-t border-gray-200">
+          <a class="m-3 d-flex justify-content-center" href="{% url 'landing:landing_page' %}">
+            <img src="{% static 'images/logo_small.png' %}" alt="SalesMinded Logo" alt="" width="50" height="34" width='10%'>
+          </a>
+            <h2 class="text-4xl text-gray-800">Add a password to complete your registration</h2>
+            <br>
+            <form  method="post">
+                {% csrf_token %}
+                {{ form.email.as_hidden }}
+                {{ form.phonenumber|as_crispy_field }}
+                {{ form.company_name|as_crispy_field }}
+                {{ form.password1|as_crispy_field }}
+                {{ form.password2|as_crispy_field }}
+                <br>
+                <input type="submit" name="submit" value="Submit" class="btn btn-primary" id="submit-id-submit">
+            </form>
+                <br>
+                <p><img src="{% static 'images/mail.png' %}" class="img-fluid float-left" alt="Bootstrap Themes" width="50vh" loading="lazy"> <a href="{% url 'signup' %}"> Sign Up with Email instead </a></p>
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function() {
+
+//   $("#id_phonenumber").css('width', '100%');
+
+//   const phoneInputField = document.querySelector("#id_phonenumber");
+//   const phoneInput = window.intlTelInput(phoneInputField, {
+//     initialCountry: "MY",
+//     utilsScript:
+//       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+//   });
+
+//   const info = document.querySelector(".alert-info");
+
+//   function process(event) {
+//   event.preventDefault();
+
+//   const phoneNumber = phoneInput.getNumber();
+
+//   info.style.display = "";
+//   info.innerHTML = `Phone number in E.164 format: <strong>${phoneNumber}</strong>`;
+//   }
+
+    // $('#id_phonenumber').change(function() {
+    //     $('#id_email').val($(this).val()+'@'+'examplemail.com');
+    // });
+
+    
+     $('#id_email').val('phone_signup@mail.com');
+
+
+
+
+})
+
+
+
+</script>
+
+{% endblock content %}

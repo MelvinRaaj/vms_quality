@@ -1,0 +1,750 @@
+<!-- product_create_or_update.html latest working version --> 
+
+{% extends "base1.html" %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<head>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+</head>
+
+<div class="container-fluid">
+    <div class="bg-white rounded box-shadow">
+      <div class="main-body">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2 class="text-4xl text-gray-800">{{ app_name }} Information</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Breadcrumb -->
+          <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item "><a href="javascript:void(0)">{{ app_name }}</a></li>
+              <!-- <li class="breadcrumb-item active" aria-current="page">{{users.company}}</li> -->
+              <li class="breadcrumb-item active" aria-current="page">{{product}}</li>
+            </ol>
+          </nav>
+          <!-- /Breadcrumb -->
+          <!--add a div just above the table with bottom border-->
+  
+        <!-- First Accordion: Product Collection Information -->
+        <form enctype="multipart/form-data" method="post" id="product_form">
+
+        <div class="accordion" id="accordion1">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{ app_name }} Information
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion1">
+              <div class="accordion-body">
+                <legend>Collection Info</legend>
+                    {% csrf_token %}
+                    <!-- main form start --- in our case product form -->
+                        {{form|crispy}}    
+                    <!-- main form end --- in our case product form -->
+                    </div>
+            </div>
+          </div>
+          </div>
+          <br>
+                <!-- Second Accordion: Product Information -->
+                <div class="accordion" id="accordion2">
+                    <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Product Information
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordion2">
+                        <div class="accordion-body">
+                        <!-- inline form for Variant start -->
+
+                        <!-- EXPLAINING with named_formsets.variants as formset -->
+                        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                        <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                        {% with named_formsets.variants as formset %}
+                            {{ formset.management_form }}
+                            <script type="text/html" id="variants-template">  // id="inlineformsetname-template"
+                                // id='inlineformsetname-__prefix__' 
+                                <tr id="variants-__prefix__" class= hide_all>
+                                    {% for fields in formset.empty_form.hidden_fields %}
+                                        {{ fields }}
+                                    {% endfor %}
+                                
+                                    {% for fields in formset.empty_form.visible_fields %}
+                                        <td>{{fields}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </script>
+                            <div class="table-responsive card mt-4 border-0">
+                                    <legend >{{app_name}} Line Information</legend>
+
+                                    <table id="tbl2" class="table w3-table-all w3-hoverable">
+                                        <thead class="text-secondary">
+                                            <th>Product_SKU</th>
+                                            <th>qty</th>
+                                            <!-- Add other fields as needed -->
+                                            <th>Delete</th>
+                                        </thead>
+                                        <tbody id="item-variants">  <!-- id="item-inlineformsetname" -->
+                                            <!-- formset non forms errors -->
+                                            {% for error in formset.non_form_errors %}
+                                                <span style="color: red">{{ error }}</span>
+                                            {% endfor %}
+                                            {% for formss in formset %}
+                                                {{ formss.management_form }}
+                                                <tr id="variants-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                                    {{ formss.id }}
+                                                    {% for field in formss.visible_fields %}
+                                                        <td>
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <span style="color: red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            
+                                                            {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    {% comment %} for delete {% endcomment %}
+                                                    {% if formss.instance.pk %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                                Delete
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'rfi:delete_variant' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>            
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>    
+                            {% endwith %}
+                            <br>
+                            <a href="#" id="add-variant-button" class="btn btn-secondary add-variants">Add More</a> <!-- id="add-inlineformsetname-button" -->
+                            <!-- inline form for Images end -->
+                        </div>
+                    </div>
+                </div>
+                <br>
+                
+                <!-- Second Accordion: Sample Information -->
+                <div class="accordion" id="accordion5">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            Sample Information
+                        </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive" data-bs-parent="#accordion5">
+                        <div class="accordion-body">
+                        <!-- inline form for Variant start -->
+            
+                        <!-- EXPLAINING with named_formsets.variants as formset -->
+                        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                        <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                        {% with named_formsets.samples as formset %}
+                            {{ formset.management_form }}
+                            <script type="text/html" id="samples-template">  // id="inlineformsetname-template"
+                                // id='inlineformsetname-__prefix__' 
+                                <tr id="samples-__prefix__" class= hide_all>
+                                    {% for fields in formset.empty_form.hidden_fields %}
+                                        {{ fields }}
+                                    {% endfor %}
+                                
+                                    {% for fields in formset.empty_form.visible_fields %}
+                                        <td>{{fields}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </script>
+                            <div class="table-responsive card mt-4 border-0">
+                                    <legend >Sample Information (SKU)</legend>
+            
+                                    <table id="tbl2" class="table w3-table-all w3-hoverable">
+                                        <thead class="text-secondary">
+                                            <th>Sample SKU</th>
+                                            <th>qty</th>
+                                            <!-- Add other fields as needed -->
+                                            <th>Delete</th>
+            
+            
+                                        </thead>
+                                        <tbody id="item-samples">  <!-- id="item-inlineformsetname" -->
+                                            <!-- formset non forms errors -->
+                                            {% for error in formset.non_form_errors %}
+                                                <span style="color: red">{{ error }}</span>
+                                            {% endfor %}
+                                            {% for formss in formset %}
+                                                {{ formss.management_form }}
+                                                <tr id="samples-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                                    {{ formss.id }}
+                                                    {% for field in formss.visible_fields %}
+                                                        <td>
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <span style="color: red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            
+                                                            {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    {% comment %} for delete {% endcomment %}
+                                                    {% if formss.instance.pk %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                                Delete
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'rfi:delete_samples' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>            
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+            
+                                <br>
+                            </div>    
+                            {% endwith %}
+                            <br>
+                            <a href="#" id="add-samples-button" class="btn btn-secondary add-samples">Add More</a> <!-- id="add-inlineformsetname-button" -->
+                            <!-- inline form for Images end -->
+                        </div>
+                        </div>
+                    </div>
+                    <br>                
+                
+                <!-- Second Accordion: Product Information -->
+                <div class="accordion" id="accordion3">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Vendor Information
+                        </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordion3">
+                        <div class="accordion-body">
+                        <!-- inline form for Variant start -->
+            
+                        <!-- EXPLAINING with named_formsets.variants as formset -->
+                        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                        <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                        {% with named_formsets.vendors as formset %}
+                            {{ formset.management_form }}
+                            <script type="text/html" id="vendors-template">  // id="inlineformsetname-template"
+                                // id='inlineformsetname-__prefix__' 
+                                <tr id="vendors-__prefix__" class= hide_all>
+                                    {% for fields in formset.empty_form.hidden_fields %}
+                                        {{ fields }}
+                                    {% endfor %}
+                                
+                                    {% for fields in formset.empty_form.visible_fields %}
+                                        <td>{{fields}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </script>
+                            <div class="table-responsive card mt-4 border-0">
+                                    <legend >Vendor Information (SKU)</legend>
+            
+                                    <table id="tbl2" class="table w3-table-all w3-hoverable">
+                                        <thead class="text-secondary">
+                                            <th>Vendor</th>
+                                            <!-- Add other fields as needed -->
+                                            <th>Delete</th>
+            
+            
+                                        </thead>
+                                        <tbody id="item-vendors">  <!-- id="item-inlineformsetname" -->
+                                            <!-- formset non forms errors -->
+                                            {% for error in formset.non_form_errors %}
+                                                <span style="color: red">{{ error }}</span>
+                                            {% endfor %}
+                                            {% for formss in formset %}
+                                                {{ formss.management_form }}
+                                                <tr id="vendors-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                                    {{ formss.id }}
+                                                    {% for field in formss.visible_fields %}
+                                                        <td>
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <span style="color: red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            
+                                                            {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    {% comment %} for delete {% endcomment %}
+                                                    {% if formss.instance.pk %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                                Delete
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'rfi:delete_vendors' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>            
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+            
+                                <br>
+                            </div>    
+                            {% endwith %}
+                            <br>
+                            <a href="#" id="add-vendors-button" class="btn btn-secondary add-vendors">Add More</a> <!-- id="add-inlineformsetname-button" -->
+                            <!-- inline form for Images end -->
+                        </div>
+                        </div>
+                </div>
+                <br>
+
+                <!-- Second Accordion: VendOR rESPOSNE Information -->
+                <div class="accordion" id="accordion4">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Response Information
+                        </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordion4">
+                        <div class="accordion-body">
+                        <!-- inline form for Variant start -->
+            
+                        <!-- EXPLAINING with named_formsets.variants as formset -->
+                        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                        <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                        {% with named_formsets.response as formset %}
+                            {{ formset.management_form }}
+                            <script type="text/html" id="response-template">  // id="inlineformsetname-template"
+                                // id='inlineformsetname-__prefix__' 
+                                <tr id="response-__prefix__" class= hide_all>
+                                    {% for fields in formset.empty_form.hidden_fields %}
+                                        {{ fields }}
+                                    {% endfor %}
+                                
+                                    {% for fields in formset.empty_form.visible_fields %}
+                                        <td>{{fields}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </script>
+                            <div class="table-responsive card mt-4 border-0">
+                                    <legend >Vendor Responses</legend>
+            
+                                    <table id="tbl2" class="table w3-table-all w3-hoverable">
+                                        <thead class="text-secondary">
+                                            <th>Product</th>
+                                            <th>Vendor</th>
+                                            <th>moq</th>
+                                            <th>price</th>
+                                            <th>lead_time</th>
+                                            <th>ETA</th>
+
+                                            <!-- Add other fields as needed -->
+                                            <th>Delete</th>
+            
+            
+                                        </thead>
+                                        <tbody id="item-response">  <!-- id="item-inlineformsetname" -->
+                                            <!-- formset non forms errors -->
+                                            {% for error in formset.non_form_errors %}
+                                                <span style="color: red">{{ error }}</span>
+                                            {% endfor %}
+                                            {% for formss in formset %}
+                                                {{ formss.management_form }}
+                                                <tr id="response-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                                    {{ formss.id }}
+                                                    {% for field in formss.visible_fields %}
+                                                        <td>
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <span style="color: red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            
+                                                            {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    {% comment %} for delete {% endcomment %}
+                                                    {% if formss.instance.pk %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                                Delete
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'rfi:delete_vendors' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>            
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+            
+                                <br>
+                            </div>    
+                            {% endwith %}
+                            <br>
+                            <a href="#" id="add-response-button" class="btn btn-secondary add-response">Add More</a> <!-- id="add-inlineformsetname-button" -->
+                            <!-- inline form for Images end -->
+                        </div>
+                        </div>
+                </div>
+
+                  <br>
+
+                <!-- Second Accordion: Sample Vendor Response Information -->
+                <div class="accordion" id="accordion6">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            Sample Response Information
+                        </button>
+                        </h2>
+                        <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix" data-bs-parent="#accordion6">
+                        <div class="accordion-body">
+                        <!-- inline form for Variant start -->
+            
+                        <!-- EXPLAINING with named_formsets.variants as formset -->
+                        <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                        <!-- Note: here variants is our VariantFormSet name, used in get_named_formsets function in views.py -->
+                        {% with named_formsets.sample_response as formset %}
+                            {{ formset.management_form }}
+                            <script type="text/html" id="sample_response-template">  // id="inlineformsetname-template"
+                                // id='inlineformsetname-__prefix__' 
+                                <tr id="sample_response-__prefix__" class= hide_all>
+                                    {% for fields in formset.empty_form.hidden_fields %}
+                                        {{ fields }}
+                                    {% endfor %}
+                                
+                                    {% for fields in formset.empty_form.visible_fields %}
+                                        <td>{{fields}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </script>
+                            <div class="table-responsive card mt-4 border-0">
+                                    <legend >Vendor Sample Responses</legend>
+            
+                                    <table id="tbl2" class="table w3-table-all w3-hoverable">
+                                        <thead class="text-secondary">
+                                            <th>Vendor</th>
+                                            <th>Sample</th>
+                                            <th>sample_cost</th>
+                                            <th>sample_ready_date</th>
+                                            <th>sample_send_date</th>
+                                            <th>courier_name</th>
+                                            <th>courier_tracking_no</th>
+                                            <th>status</th>
+                                            <!-- Add other fields as needed -->
+                                            <th>Delete</th>
+            
+            
+                                        </thead>
+                                        <tbody id="item-sample_response">  <!-- id="item-inlineformsetname" -->
+                                            <!-- formset non forms errors -->
+                                            {% for error in formset.non_form_errors %}
+                                                <span style="color: red">{{ error }}</span>
+                                            {% endfor %}
+                                            {% for formss in formset %}
+                                                {{ formss.management_form }}
+                                                <tr id="sample_response-{{ forloop.counter0 }}" class= hide_all>  <!-- id="inlineformsetname-counter" -->
+                                                    {{ formss.id }}
+                                                    {% for field in formss.visible_fields %}
+                                                        <td>
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <span style="color: red">{{ error }}</span>
+                                                            {% endfor %}
+                                                            
+                                                            {% comment %} {{ field.DELETE }} {% endcomment %}
+                                                        </td>
+                                                    {% endfor %}
+                                                    {% comment %} for delete {% endcomment %}
+                                                    {% if formss.instance.pk %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{formss.instance.pk}}">
+                                                                Delete
+                                                            </button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You Want To Delete This?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'rfi:delete_vendors' formss.instance.pk %}" type="button" class="btn btn-primary">Yes, Delete</a>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>            
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+            
+                                <br>
+                            </div>    
+                            {% endwith %}
+                            <br>
+                            <a href="#" id="add-sample_response-button" class="btn btn-secondary add-sample_response">Add More</a> <!-- id="add-inlineformsetname-button" -->
+                            <!-- inline form for Images end -->
+                        </div>
+                        </div>
+                </div>
+
+                  <br>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+        </div>
+
+        </form>
+
+    </div>
+    </div>
+</div>
+
+
+<script>
+
+    // add date fields
+    $(document).ready(function () {
+        $('.dateinput').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var firstAccordion = document.getElementById('collapseOne');
+        var secondAccordion = document.getElementById('collapseTwo');
+        var thirdAccordion = document.getElementById('collapseThree');
+        var fourAccordion = document.getElementById('collapseFour');
+        var fiveAccordion = document.getElementById('collapseFive');
+
+        // Open the first accordion by default
+        firstAccordion.classList.add('show');
+
+        // Collapse the second accordion
+        // secondAccordion.classList.remove('show');
+        thirdAccordion.classList.remove('show');
+        fourAccordion.classList.remove('show');
+        fiveAccordion.classList.remove('show');
+
+    });
+
+
+  $(document).ready(function() {
+    // when user clicks add more btn of variants
+      $('.add-variants').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-variants').children().length;
+          var tmplMarkup = $('#variants-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-variants').append(compiledTmpl);
+  
+          // update form count
+          $('#id_variants-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-samples').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-samples').children().length;
+          var tmplMarkup = $('#samples-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-samples').append(compiledTmpl);
+  
+          // update form count
+          $('#id_samples-TOTAL_FORMS').attr('value', count+1);
+      });
+
+      $('.add-vendors').click(function(ev) {
+          ev.preventDefault();
+          var count = $('#item-vendors').children().length;
+          var tmplMarkup = $('#vendors-template').html();
+          var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+          $('#item-vendors').append(compiledTmpl);
+  
+          // update form count
+          $('#id_vendors-TOTAL_FORMS').attr('value', count+1);
+      });
+      
+
+      $('#id_shopping_list').change(function () {
+            var shopping_list = $(this).val();
+            
+            // Assuming your formset has a fixed prefix called 'variants'
+            var formsetPrefix = 'variants';
+
+            $('#item-variants').empty();
+            $('#item-samples').empty();
+
+            $.ajax({
+                url: "{% url 'rfi:get_product_names' %}",
+                
+                data: {
+                    'shopping_list': shopping_list,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    // Iterate over each variant in the JSON response
+                    $.each(data.variants, function (index, variantData) {
+                        // Create a new variant row
+                        var count = $('#item-variants').children().length;
+                        var tmplMarkup = $('#variants-template').html();
+                        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+
+                        // Append the new row to the table
+                        $('#item-variants').append(compiledTmpl);
+
+                        // Populate the new row with data from the JSON response
+                        var newRow = $('#variants-' + count);
+                        var selectElement = newRow.find('select[name$=rfi_item]');
+                        newRow.find('input[name$=qty]').val(variantData.qty);
+                        var productSkuValue = variantData.product_sku.toString();
+
+                        // Update the form count
+                        $('#id_variants-TOTAL_FORMS').attr('value', count + 1);
+
+                        // Loop through each option and find a match based on product SKU and quantity
+                        selectElement.find('option').each(function() {
+                            var optionText = $(this).text();
+                            
+                            // Check if the optionText contains both product SKU and quantity
+                            if (optionText.includes(productSkuValue)) {
+                                $(this).prop('selected', true);
+                                return false;  // Break out of the loop once a match is found
+                            }
+                        });
+
+                        // Optionally, you can trigger any additional events or actions here
+                    });
+
+                    // Iterate over each variant in the JSON response
+                    $.each(data.samples, function (index, sampleData) {
+                        // Create a new variant row
+                        var count = $('#item-samples').children().length;
+                        var tmplMarkup = $('#samples-template').html();
+                        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+
+                        // Append the new row to the table
+                        $('#item-samples').append(compiledTmpl);
+
+                        // Populate the new row with data from the JSON response
+                        var newRow = $('#samples-' + count);
+                        var selectElement = newRow.find('select[name$=sample]'); // need to adjust this
+                        newRow.find('input[name$=sample_qty]').val(sampleData.qty);
+                        var sampleSkuValue = sampleData.samples.toString();
+
+                        // Update the form count
+                        $('#id_samples-TOTAL_FORMS').attr('value', count + 1);
+
+                        // Loop through each option and find a match based on product SKU and quantity
+                        selectElement.find('option').each(function() {
+                            var optionText = $(this).text();
+                            
+                            // Check if the optionText contains both product SKU and quantity
+                            if (optionText.includes(sampleSkuValue)) {
+                                $(this).prop('selected', true);
+                                return false;  // Break out of the loop once a match is found
+                            }
+                        });
+
+                        // Optionally, you can trigger any additional events or actions here
+                    });
+                }
+            });
+        });
+
+
+  });
+</script>
+        
+{% endblock content %}

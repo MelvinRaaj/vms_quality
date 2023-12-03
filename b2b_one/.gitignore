@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.dll
+
+# C extensions
+*.o
+*.obj
+
+# Distribution / packaging
+dist/
+build/
+eggs/
+*.egg-info/
+
+# Installer logs
+pip-log.txt
+
+# Virtual environment
+venv/
+ENV/
+
+# Unit test / coverage reports
+.coverage
+htmlcov/
+
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+media
+*.swp
+.DS_Store
+
+# Editors
+.idea
+.vscode
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+
+# OS Files
+.DS_Store
+Thumbs.db

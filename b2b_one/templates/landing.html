@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="container" id="icon-grid">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img src="{% static 'images/hero.png' %}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </div>
+        <div class="col-lg-6">
+          <img src="{% static 'images/mdec.png' %}" class="img-fluid float-left" alt="Bootstrap Themes" width="200" height="200" loading="lazy">
+          <h1 class="display-1 fw-bold lh-1 mb-3">B2B_ONE PLATFORM </h1>
+          <p style='font-size;8px:'>One portal for managing VENDORS, PROCUREMENT, QUALITY AND DOCUMENTS for B2B Organizations.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2"><a href="{% url 'signup' %}" style='color:white;text-decoration: none;'>Sign Up</a></button>
+          </div>
+        </div>
+  </div>
+</div>
+<br>
+
+
+<div class="container" id="featured-3">
+  <h2 class="pb-2 border-bottom fw-bold">Explore our Benefits</h2>
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    <div class="feature col">
+      <div class="feature-icon">
+        <svg class="bi" width="1em" height="1em"><img src="{% static 'images/business.png' %}" class="d-block me-2 mx-lg-auto img-fluid" alt="Bootstrap Themes" width="100" height="80" loading="lazy"></svg>
+      </div>
+      <h3 class="fw-bold">For Existing Vendors</h3>
+      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+      <a href="#" class="icon-link">
+        See More
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
+      </a>
+    </div>
+    <div class="feature col">
+      <div class="feature-icon">
+        <svg class="bi" width="1em" height="1em"><img src="{% static 'images/technology.png' %}" class="d-block me-2 mx-lg-auto img-fluid" alt="Bootstrap Themes" width="100" height="80" loading="lazy"></svg>
+      </div>
+      <h3 class="fw-bold">For New Vendors</h3>
+      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+      <a href="#" class="icon-link">
+        See More
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
+      </a>
+    </div>
+    <div class="feature col">
+      <div class="feature-icon">
+        <svg class="bi" width="1em" height="1em"><img src="{% static 'images/partners.png' %}" class="d-block me-2 mx-lg-auto img-fluid" alt="Bootstrap Themes" width="100" height="80" loading="lazy"></svg>
+      </div>
+      <h3 class="fw-bold">For Employees</h3>
+      <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+      <a href="#" class="icon-link">
+        See More
+        <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
+      </a>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<div class="container" id="icon-grid">
+  <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <h1 class="display-5 fw-bold lh-1 mb-3">Sign Up and become part of B2B_One's community today!</h1>
+          <p class="lead" style='font-size;10px:'>Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+          <form class="p-4 p-md-5 border rounded-3 bg-light">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+              <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+              <label for="floatingPassword">Password</label>
+            </div>
+            <div class="checkbox mb-3">
+              <label>
+                <input type="checkbox" value="remember-me"> Remember me
+              </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+            <hr class="my-4">
+            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
+          </form>
+        </div>
+      </div>
+</div>
+
+<footer class="container py-5">
+  <div class="row">
+    <div class="col-12 col-md">
+      <img src="{% static 'images/mdec.png' %}" width="80" height="60" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24"><title>SalesMinded</title><circle cx="12" cy="12" r="10"/></img>
+      <small class="d-block mb-3 text-muted">&copy; 2018–2023</small>
+      
+    </div>
+    <div class="col-6 col-md">
+      <h5 class="fw-bold">Features</h5>
+      <ul class="list-unstyled text-small">
+        <li><a class="link-secondary" href="#">Cool stuff</a></li>
+        <li><a class="link-secondary" href="#">Random feature</a></li>
+        <li><a class="link-secondary" href="#">Team feature</a></li>
+        <li><a class="link-secondary" href="#">Stuff for developers</a></li>
+        <li><a class="link-secondary" href="#">Another one</a></li>
+        <li><a class="link-secondary" href="#">Last time</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-md">
+      <h5 class="fw-bold">Resources</h5>
+      <ul class="list-unstyled text-small">
+        <li><a class="link-secondary" href="#">Resource name</a></li>
+        <li><a class="link-secondary" href="#">Resource</a></li>
+        <li><a class="link-secondary" href="#">Another resource</a></li>
+        <li><a class="link-secondary" href="#">Final resource</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-md">
+      <h5 class="fw-bold">Resources</h5>
+      <ul class="list-unstyled text-small">
+        <li><a class="link-secondary" href="#">Business</a></li>
+        <li><a class="link-secondary" href="#">Education</a></li>
+        <li><a class="link-secondary" href="#">Government</a></li>
+        <li><a class="link-secondary" href="#">Gaming</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-md">
+      <h5 class="fw-bold">About</h5>
+      <ul class="list-unstyled text-small">
+        <li><a class="link-secondary" href="#">Team</a></li>
+        <li><a class="link-secondary" href="#">Locations</a></li>
+        <li><a class="link-secondary" href="#">Privacy</a></li>
+        <li><a class="link-secondary" href="#">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+
+ {% endblock content %}

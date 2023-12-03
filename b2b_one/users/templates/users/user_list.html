@@ -1,0 +1,156 @@
+{% extends 'base1.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% load view_breadcrumbs %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="p-2 bg-white rounded box-shadow">
+                <div class="border-t border-gray-200">
+                    <h4 class="text-4xl text-gray-800">My Users</h4>
+                        <div class="w-full d-flex px-0 justify-content-between" id="titleholder">
+                          <!-- Breadcrumb -->
+                          <nav aria-label="breadcrumb" class="main-breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                              <li class="breadcrumb-item"><a href="javascript:void(0)">My Tenants</a></li>
+                            </ol>
+                          </nav>
+                          <!-- /Breadcrumb -->
+
+                            <div class="align-middle">
+                                <a class="btn btn-primary" href="{% url 'invitation:user_invite'%}"> + Add New User</a>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="card col-12 py-3 px-2">
+                        <table id="userlist" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th class="min-phone-l">Username</th>
+                                            <th class="min-phone-l">Company</th>
+                                            <th class="min-phone-l">Email</th>
+                                            <th class="min-phone-l">Phone</th>
+                                            <th class="min-phone-l">User Role</th>
+                                            <th data-priority="1"></th>
+                                        </tr>
+                                    </thead>
+                                <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                        </tfoot>
+                    </table>
+            </div>
+        </div> 
+    </div> 
+
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-1.11.5/b-2.2.2/sl-1.3.4/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" src="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" src="https://cdn.datatables.net/1.11.5/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" type="text/css"src="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.jqueryui.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jqc-1.12.4/dt-1.11.5/b-2.2.2/sl-1.3.4/datatables.min.css"/>
+    
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function () {
+        var oTable = $('#userlist').DataTable({
+            // ...
+            "columnDefs": [
+                {
+                    "searchable": false,
+                    "targets": 5
+                },
+                {
+                    "targets": [ 1 ],
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                },
+              ],
+            "order": [[ 1, 'asc' ]],
+            "processing": true,
+            "serverSide": true,
+            "searching": true,
+            "ajax": "{% url 'users:user_lists_table' %}",
+              language: {
+                'paginate': {
+                  'previous': '<span class="prev-icon"></span>',
+                  'next': '<span class="next-icon"></span>'
+                }
+            },
+            responsive: true,
+            columns:[      
+                {data: ""},
+                {data: "username"},
+                {data: "company_name"},
+                {data: "email"},
+                {data: "phone"},
+                {data: "user_role"},
+                {
+                    data: "edit",
+                    render: function (data, type, row, meta) {
+                        if (type === 'display') {
+                        var url = "{% url 'users:userprofileupdate' user.pk %}";
+                        var id = row.id;
+                        url = url.replace(0, id);
+                        data = '<a class="btn btn-info align-middle" href=' + url + ' %}">Edit</a>';
+    
+                    }
+                        return data;
+                    }
+                }
+            ],
+        });
+        // ...
+        oTable.ajax.reload( function ( json ) {
+            oTable.on( 'order.dt search.dt', function () {
+                let i = 1;
+    
+                oTable.cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
+                    this.data(i++);
+                } );
+            } ).draw();
+         });
+        $("body").change(function(){
+            oTable.ajax.reload( function ( json ) {
+                oTable.on( 'order.dt search.dt', function () {
+                    let i = 1;
+    
+                    oTable.cells(null, 0, {search:'applied', order:'applied'}).every( function (cell) {
+                        this.data(i++);
+                    } );
+                } ).draw();
+             });
+         });
+    
+    });
+    
+    </script>
+
+
+</div>
+
+
+{% endblock content %}

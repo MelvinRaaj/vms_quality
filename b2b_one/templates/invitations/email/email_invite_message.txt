@@ -1,0 +1,12 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}
+
+Hello,
+
+You ({{ email }}) have been invited to join {{ site_name }} by {{ inviter }} as part of {{ company }}
+
+To complete your sign up please click on this link {{ invite_url }}
+
+{% endblocktrans %}
+{% endautoescape %}

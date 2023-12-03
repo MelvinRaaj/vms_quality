@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+<div class="m-4 d-flex justify-content-center">
+    <div class="m-4 d-flex align-items-center bg-light text-dark rounded">
+        <div class="m-4 d-flex justify-content-center">
+            <form  method="post">
+
+                      <a class="m-3 d-flex justify-content-center" href="{% url 'landing:landing_page' %}">
+                        <img src="{% static 'images/logo_small.png' %}" alt="SalesMinded Logo" alt="" width="50" height="34" width='10%'>
+                      </a>
+
+                     <h1> Log in to B2B_ONE Solution </h1>
+
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-primary" type="submit">Login</button>
+                    <hr>
+                    <a href="{% url 'reset' %}">Forgot Password? or First Time Login?</a>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}

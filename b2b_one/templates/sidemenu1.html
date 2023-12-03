@@ -1,0 +1,83 @@
+<!-- if you adjust here you have to adjust sidenavbar also -->
+
+<head>
+
+  <style>
+
+    /* all nav link to be font color white */
+    .nav-link{
+      color: white;
+    }
+  </style>
+
+</head>
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" >
+    <div class="position-sticky pt-3 sidebar-sticky" style="background-color: #243E62;">
+      <ul class="nav flex-column">
+        <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase">
+          <span style="color:white;" >Menu</span>
+          <a class="link-secondary" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle" class="align-text-bottom"></span>
+          </a>
+        </h5>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'quality:QualityHome' %}">
+            <span data-feather="home" class="align-text-bottom"></span>
+            Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'quality:qualitytemplatelist' %}">
+            <span data-feather="file" class="align-text-bottom"></span>
+            Quality Templates
+          </a>
+        </li>
+        <li class="nav-item">
+            <a style="color:white;" class="nav-link" href="{% url 'quality:QualitySchedules' %}">
+              <span data-feather="file" class="align-text-bottom"></span>
+            Sample Schedules
+          </a>
+        </li>
+        <li  class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'quality:samples' %}">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Sample Results
+          </a>
+        </li>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="{% url 'quality:InspectionSchedules1' %}">
+            <span data-feather="users" class="align-text-bottom"></span>
+            Inspection Schedules
+          </a>
+        </li>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="#">
+            <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+            Inspection Results
+          </a>
+        </li>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="#">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            MRB
+          </a>
+        </li>
+        <li class="nav-item">
+          <a style="color:white;" class="nav-link" href="#">
+            <span data-feather="layers" class="align-text-bottom"></span>
+            Claims
+          </a>
+        </li>
+      </ul>
+
+      <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1  text-uppercase">
+        <span style="color:white;" >Settings</span>
+        <a class="link-secondary" href="#" aria-label="Add a new report">
+          <span data-feather="plus-circle" class="align-text-bottom"></span>
+        </a>
+      </h5>
+      <ul class="nav flex-column mb-2">
+      </ul>
+    </div>
+  </nav>
