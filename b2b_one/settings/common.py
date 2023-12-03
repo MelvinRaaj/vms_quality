@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
     
     #added for allauth
     'django.contrib.sites',
@@ -169,6 +170,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -273,6 +275,7 @@ STATIC_ROOT = "static_root"
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"#add this line
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -299,3 +302,5 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1", # default
     "SWAGGER_UI_FAVICON_HREF": STATIC_URL + "logo.png", # default is swagger favicon
 }
+
+
